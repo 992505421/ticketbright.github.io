@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Abertura de Tickets</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .logo {
+            display: block;
+            margin: 0 auto 20px auto;
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="base64.jpg" alt="Bright Telecom Logo" class="logo">
+        <h1>Abertura de Ticket</h1>
+        <form id="ticketForm">
+            <div class="form-group">
+                <label for="nome">Nome do Cliente:</label>
+                <input type="text" id="nome" name="nome" required>
+            </div>
+            <div class="form-group">
+                <label for="descricao">Descrição do Problema:</label>
+                <textarea id="descricao" name="descricao" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="prioridade">Prioridade:</label>
+                <select id="prioridade" name="prioridade" required>
+                    <option value="Baixa">Baixa</option>
+                    <option value="Média">Média</option>
+                    <option value="Alta">Alta</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="categoria">Categoria:</label>
+                <select id="categoria" name="categoria" required>
+                    <option value="Suporte Técnico">Suporte Técnico</option>
+                    <option value="Vendas">Vendas</option>
+                    <option value="Financeiro">Financeiro</option>
+                    <option value="Outro">Outro</option>
+                </select>
+            </div>
+            <button type="submit">Abrir Ticket</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('ticketForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const nome = document.getElementById('nome').value;
+            const descricao = document.getElementById('descricao').value;
+            const prioridade = document.getElementById('prioridade').value;
+            const categoria = document.getElementById('categoria').value;
+
+            // Enviar os dados para o n8n via API
+            fetch('https://SEU_DOMINIO_N8N/webhook/ticket', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    nome: nome,
+                    descricao: descricao,
+                    prioridade: prioridade,
+                    categoria: categoria
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Ticket aberto com sucesso!');
+                // Resetar o formulário
+                document.getElementById('ticketForm').reset();
+            })
+            .catch(error => {
+                console.error('Erro ao abrir o ticket:', error);
+                alert('Houve um erro ao abrir o ticket. Por favor, tente novamente.');
+            });
+        });
+    </script>
+</body>
+</html>
