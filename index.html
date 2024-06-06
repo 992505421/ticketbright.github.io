@@ -66,6 +66,14 @@
                 <input type="text" id="nome" name="nome" required>
             </div>
             <div class="form-group">
+                <label for="celular">Número de Celular:</label>
+                <input type="tel" id="celular" name="celular" required>
+            </div>
+            <div class="form-group">
+                <label for="fixo">Número de Telefone Fixo:</label>
+                <input type="tel" id="fixo" name="fixo">
+            </div>
+            <div class="form-group">
                 <label for="descricao">Descrição do Problema:</label>
                 <textarea id="descricao" name="descricao" rows="4" required></textarea>
             </div>
@@ -89,10 +97,19 @@
             <button type="submit">Abrir Ticket</button>
         </form>
     </div>
+    <!-- Incluir biblioteca inputmask para mascarar o campo de número de celular -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Mascara para o número de celular (99) 99999-9999
+            $('#celular').inputmask('(99) 99999-9999');
+        });
+
         document.getElementById('ticketForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const nome = document.getElementById('nome').value;
+            const celular = document.getElementById('celular').value;
+            const fixo = document.getElementById('fixo').value;
             const descricao = document.getElementById('descricao').value;
             const prioridade = document.getElementById('prioridade').value;
             const categoria = document.getElementById('categoria').value;
@@ -105,6 +122,8 @@
                 },
                 body: JSON.stringify({
                     nome: nome,
+                    celular: celular,
+                    fixo: fixo,
                     descricao: descricao,
                     prioridade: prioridade,
                     categoria: categoria
